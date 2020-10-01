@@ -126,3 +126,47 @@ require directive
 ---
 libraries:
 standard: https://elixir-lang.org/docs.html
+
+---
+maps:
+"Maps are the go-to key/value data structure in Elixir. They have good perfor- mance at all sizes."
+"You can’t bind a value to a key during pattern matching."
+
+
+---
+structs
+
+defstruct
+%Attendee{}
+
+accessing nested structs:
+put_in
+update_in
+get_in
+get_and_update_in
+
+----
+Enums
+
+`to_list`
+`concat`
+`map`
+`at`
+`filter`
+`reject` opposite of filter?
+`sort`
+`max`
+`max_by`
+`take`
+`take_every`
+`take_while`
+`split`
+`split_while`
+`join`
+`all?`
+`any?`
+`member?`
+`empty?`
+`zip`
+`with_index`
+`reduce`
