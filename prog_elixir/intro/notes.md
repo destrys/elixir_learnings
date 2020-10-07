@@ -170,3 +170,76 @@ Enums
 `zip`
 `with_index`
 `reduce`
+
+
+----
+streams
+
+"The good news is that there is no intermediate storage. The bad news is that it runs about two times slower than the previous version"
+
+"Instead, you probably want to use some helpful wrapper functions to do the heavy lifting. There are a number of these, including cycle, repeatedly, iterate, unfold, and resource."
+
+
+`cycle`:
+
+iex> Stream.cycle(~w{ green white }) |>
+...> Stream.zip(1..5) |>
+...> Enum.map(fn {class, value} ->
+...> "<tr class='#{class}'><td>#{value}</td></tr>\n" end) |>
+...> IO.puts
+
+`repeatedly`:
+Stream.repeatedly(&:random.uniform/0) |> Enum.take(3)
+
+`iterate`:
+Stream.iterate(2, &(&1*&1)) |> Enum.take(5)
+
+`unfold`:
+fibonacci:
+Stream.unfold({0,1}, fn {f1,f2} -> {f1, {f2, f1+f2}} end) |> Enum.take(15)
+
+"You supply an initial value and a function. The function uses the argument to create two values, returned as a tuple. The first is the value to be returned by this iteration of the stream, and the second is the value to be passed to the function on the next iteration of the stream. If the function returns nil, the stream terminates."
+
+
+aside: where did sigils get skipped?
+~w{green white} = ["green", "white"] - cool
+
+`resource`
+example:
+```
+Stream.resource(
+  fn -> File.open!("sample") end,
+  fn file ->
+    case IO.read(file, :line) do
+      data when is_binary(data) -> {[data], file}
+      _ -> {:halt, file}
+    end
+  end,
+  fn file -> File.close(file) end)
+```
+"The first function opens the file when the stream becomes active, and passes it to the second function. This reads the file, line by line, returning either a line and the file as a tuple, or a :halt tuple at the end of the file. The third function closes the file."
+
+
+----
+collectables
+
+"warning: the Collectable protocol is deprecated for non-empty lists. The behaviour of things like Enum.into/2 or "for" comprehensions with an :into option is incorrect when collecting into non-empty lists. If you're collecting into a non-empty keyword list, consider using Keyword.merge/2 instead. If you're collecting into a non-empty list, consider concatenating the two lists with the ++ operator."
+
+Output streams are collectable, so the following code lazily copies standard input to standard output:
+`Enum.into IO.stream(:stdio, :line), IO.stream(:stdio, :line)`
+
+
+
+----
+comprehensions!
+
+!!
+If we have two generators, their operations are nested,
+
+
+---
+binaries
+
+"The first rule of binaries is “if in doubt, specify the type of each field.” Available types are binary, bits, bitstring, bytes, float, integer, utf8, utf16, and utf32."
+Use hyphens to separate multiple attributes for a field:
+<< length::unsigned-integer-size(12), flags::bitstring-size(4) >> = data

@@ -70,7 +70,25 @@ defmodule Exercises do
 
   # a different approach can use flatten([[h|t]|tail], result)
   # you can do [h,t|tail]
- 
+
+  # Valim's solution:
+  def JVflatten(list), do: do_flatten(list, [])
+
+  def do_flatten([h|t], tail) when is_list(h) do
+    do_flatten(h, do_flatten(t, tail))
+  end
+
+  def do_flatten([h|t], tail) do
+    [h|do_flatten(t, tail)]
+  end
+
+  def do_flatten([], tail) do
+    tail
+  end
+  # this is actually pretty close to mine, but without concatting
+  
+
+  
 end
 
     

@@ -1,0 +1,2 @@
+the resulting list has 4 elements, one of which isn't an ascii char, so that list isn't displayed as a word
+but that element is a list that IS only ascii chars, so it can/is displayed as a word.
