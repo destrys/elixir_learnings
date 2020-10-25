@@ -243,3 +243,10 @@ binaries
 "The first rule of binaries is “if in doubt, specify the type of each field.” Available types are binary, bits, bitstring, bytes, float, integer, utf8, utf16, and utf32."
 Use hyphens to separate multiple attributes for a field:
 << length::unsigned-integer-size(12), flags::bitstring-size(4) >> = data
+
+
+---
+mix
+"You pass mix run an Elixir expression, which gets evaluated in the context of your application. Mix will recompile your application, as it is out of date, before executing the expression."
+
+`iex -S mix`
