@@ -1,5 +1,7 @@
 defmodule Issues.CLI do
 
+  import Issues.TableFormatter, only: [print_table_for_columns: 2]
+
   @default_count 4
 
   @moduledoc """
@@ -49,8 +51,7 @@ defmodule Issues.CLI do
     |> decode_response()
     |> sort_into_decending_order()
     |> last(count)
-    |> Issues.FormatIssues.format_issues()
-    |> display_table()
+    |> print_table_for_columns(["number", "created_at", "title"])
   end
 
   def decode_response({:ok, body}), do: body
